@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Inventaire</title>
+<meta name="theme-color" content="#1B2A22">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <div class="stripe"></div>
+
+  <!-- ===== Accueil : liste des fiches ===== -->
+  <section id="viewHome">
+    <header class="top">
+      <h1>INVENTAIRE</h1>
+      <p class="sub">Quantité × prix, total automatique</p>
+    </header>
+
+    <div class="grand-total" id="grandTotal"></div>
+
+    <div class="home-actions">
+      <button class="btn primary" id="newFicheBtn" type="button">+ Nouvelle fiche</button>
+    </div>
+
+    <div id="ficheList"></div>
+
+    <details class="backup">
+      <summary>Sauvegarde des données</summary>
+      <p class="notice">Les fiches sont enregistrées sur cet appareil. Fais une sauvegarde de temps en temps (ou pour passer sur un autre appareil).</p>
+      <div class="row">
+        <button class="btn ghost" id="backupBtn" type="button">⬇ Sauvegarder (.json)</button>
+        <button class="btn ghost" id="restoreBtn" type="button">⬆ Restaurer</button>
+      </div>
+      <input type="file" id="restoreInput" accept=".json,application/json" style="display:none">
+    </details>
+  </section>
+
+  <!-- ===== Fiche : tableau ===== -->
+  <section id="viewFiche" style="display:none">
+    <header class="fiche-top">
+      <button class="btn ghost small" id="backBtn" type="button">← Fiches</button>
+      <span class="saved" id="savedState">Enregistré ✓</span>
+      <div class="menu-wrap">
+        <button class="btn ghost small" id="menuBtn" type="button" aria-label="Plus d'actions">⋯</button>
+        <div class="menu" id="menu" style="display:none">
+          <button type="button" data-act="csv">Exporter en CSV</button>
+          <button type="button" data-act="xlsx">Exporter en Excel</button>
+          <button type="button" data-act="print">Imprimer / PDF</button>
+          <button type="button" data-act="dup">Dupliquer la fiche</button>
+          <button type="button" data-act="clear">Vider les lignes</button>
+          <button type="button" data-act="del" class="danger">Supprimer la fiche</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="fiche-meta">
+      <input type="text" id="ficheName" class="fiche-name" placeholder="Nom de la fiche (ex : Rayon frais)" autocomplete="off">
+      <input type="date" id="ficheDate" class="fiche-date" aria-label="Date de l'inventaire">
+    </div>
+
+    <div class="sheet-table" id="sheetTable">
+      <div class="trow thead">
+        <span>Désignation</span><span class="num">Qté</span><span class="num">Prix €</span><span class="num">Total</span><span></span>
+      </div>
+      <div id="rows"></div>
+    </div>
+
+    <button class="btn ghost add-row" id="addRowBtn" type="button">+ Ajouter une ligne</button>
+
+    <div class="totals-bar" id="totalsBar">
+      <div class="t-left"><span id="tLines">0 ligne</span><span id="tQty">0 article</span></div>
+      <div class="t-right"><span class="lbl">TOTAL</span><strong id="tTotal">0,00 €</strong></div>
+    </div>
+  </section>
+</div>
+
+<!-- Zone d'impression (PDF) -->
+<div id="printArea"></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
